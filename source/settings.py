@@ -123,6 +123,7 @@ INSTALLED_APPS = (
 
     # Own apps
     'profiles',
+    'registration',
 )
 
 # A sample logging configuration. The only tangible logging

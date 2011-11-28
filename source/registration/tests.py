@@ -1,16 +1,23 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
 
-Replace this with more appropriate tests for your application.
-"""
+from django.utils import unittest
 
-from django.test import TestCase
+from registration.forms import RegistrationForm
 
+class RegistrationTest(unittest.TestCase):
+    def test_empty_password(self):
+        form = RegistrationForm({
+            'email': 'my@email.com',
+            'password1': None,
+            'password2': None,
+        })
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+        self.assertFalse(form.is_valid())
+
+    def test_ok(self):
+        form = RegistrationForm({
+            'email': 'my@email.com',
+            'password1': '1234',
+            'password2': '1234',
+        })
+
+        self.assertTrue(form.is_valid())

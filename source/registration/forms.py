@@ -12,7 +12,7 @@ class RegistrationForm(forms.Form):
         passwd1 = self.cleaned_data.get('password1')
         passwd2 = self.cleaned_data.get('password2')
 
-        if not passwd1 or passwd1 != passwd2:
+        if passwd1 != passwd2:
             raise forms.ValidationError('The passwords don\'t match.')
 
         return self.cleaned_data

@@ -1,5 +1,6 @@
 
 from django.utils import unittest
+from django.contrib.auth.models import User
 
 from registration.forms import RegistrationForm
 
@@ -15,6 +16,23 @@ class RegistrationTest(unittest.TestCase):
 
         self.assertEqual(form.errors['email'][0],
             u'Enter a valid e-mail address.')
+
+    def test_duplicated_email(self):
+        user = User()
+        user.email = 'my@email.com'
+        user.save()
+        self.addCleanup(user.delete)
+
+        form = RegistrationForm({
+            'email': 'my@email.com',
+            'password1': '1',
+            'password2': '1',
+        })
+
+        form.is_valid()
+
+        self.assertEqual(form.errors['email'][0],
+            u'A user with that username already exists.')
 
     def test_empty_password(self):
         form = RegistrationForm({
